@@ -1,4 +1,4 @@
-# humanTime
+# FormatDate
 
 get date and time in human readable form
 
