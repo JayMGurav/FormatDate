@@ -11,23 +11,14 @@ const months = [
   "December"
 ];
 
-const days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-];
 
 // takes integrer and pads it with 0 like 05
-function padWithZeros(int) {
-  return int < 10 ? '0' + int : int;  
+function padWithZeros(int: number) :string {
+  return int < 10 ? '0' + int : int.toString();  
 }
 
 // takes integer and adds suffix to it like 12th
-function suffix(int) {
+function suffix(int:number) :string{
   if(int % 10 == 1 && int != 11){
     return int + 'st';
   }else if(int % 10 == 2 && int != 12){
@@ -38,23 +29,29 @@ function suffix(int) {
   return int + 'th';
 }
 
-function parseDate(date){
-  const year = date.getFullYear(),
-    month = date.getMonth(),
-    day = date.getDate(),
-    hrs = date.getHours(),
-    min = date.getMinutes(),
-    sec = date.getSeconds();
 
-    let humanReadableDate = '';
+interface ParseDate {
+  date: string,
+  time: string
+}
+
+function parseDate(date:Date) :ParseDate{
+  const year:number = date.getFullYear(),
+    month:number = date.getMonth(),
+    day:number = date.getDate(),
+    hrs:number = date.getHours(),
+    min:number = date.getMinutes(),
+    sec:number = date.getSeconds();
+
+    let humanReadableDate:string = '';
     humanReadableDate += suffix(day) + ' ';
     humanReadableDate += months[month].slice(0,3) + ' ';
-    humanReadableDate += year + ' ';
+    humanReadableDate += year;
 
-    let humanReadableTime = '';
-    let hour = hrs === 0 || hrs === 12 ? 12 : hrs % 12;
-    hour =  padWithZeros(hour);
-    humanReadableTime += hour + ':';
+    let humanReadableTime:string = '';
+    let hour:number = hrs === 0 || hrs === 12 ? 12 : hrs % 12;
+    let paddedHour:string =  padWithZeros(hour);
+    humanReadableTime += paddedHour + ':';
     humanReadableTime += padWithZeros(min) + ':';
     humanReadableTime += padWithZeros(sec) + ' ';
     humanReadableTime += hrs >= 12 ? 'PM' : 'AM';
@@ -66,14 +63,8 @@ function parseDate(date){
 }
 
 
-export default function humanTime(date){
+function formatDate(date:Date) :ParseDate{
   return parseDate(date);
 }
 
-
-
-// usage
-const now = new Date();
-
-console.log(humanTime(now).date);
-console.log(humanTime(now).time);
+export default formatDate;
